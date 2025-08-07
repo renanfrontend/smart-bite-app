@@ -26,14 +26,22 @@ export function AuthForm({ onLogin, onRegister }: AuthFormProps) {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
+    const emailMap = {
+      customer: 'cliente.demo@deliverytech.com',
+      restaurant: 'restaurante.demo@deliverytech.com',
+      delivery: 'entregador.demo@deliverytech.com',
+    } as const;
+
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    onLogin(loginData.email, loginData.password, loginData.userType);
+    await new Promise(resolve => setTimeout(resolve, 600));
+
+    const email = loginData.email || emailMap[loginData.userType as 'customer' | 'restaurant' | 'delivery'];
+    const password = loginData.password || 'password123';
+
+    onLogin(email, password, loginData.userType);
     setIsLoading(false);
   };
-
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
