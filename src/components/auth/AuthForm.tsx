@@ -45,6 +45,18 @@ export function AuthForm({ onLogin, onRegister }: AuthFormProps) {
     setIsLoading(false);
   };
 
+  const handleQuickLogin = async (userType: 'customer' | 'restaurant' | 'delivery') => {
+    setIsLoading(true);
+    const emailMap = {
+      customer: 'cliente.demo@deliverytech.com',
+      restaurant: 'restaurante.demo@deliverytech.com',
+      delivery: 'entregador.demo@deliverytech.com',
+    } as const;
+    await new Promise(resolve => setTimeout(resolve, 600));
+    onLogin(emailMap[userType], 'password123', userType);
+    setIsLoading(false);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-accent/5 p-4">
       <div className="w-full max-w-md">
@@ -134,6 +146,45 @@ export function AuthForm({ onLogin, onRegister }: AuthFormProps) {
                   >
                     {isLoading ? "Entrando..." : "Entrar"}
                   </Button>
+
+                  <div className="relative my-4">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t border-border"></span>
+                    </div>
+                    <div className="relative flex justify-center">
+                      <span className="bg-card px-2 text-xs text-muted-foreground">ou entre com um usuário fictício</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="w-full"
+                      onClick={() => handleQuickLogin('customer')}
+                      disabled={isLoading}
+                    >
+                      Cliente
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="w-full"
+                      onClick={() => handleQuickLogin('restaurant')}
+                      disabled={isLoading}
+                    >
+                      Restaurante
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="w-full"
+                      onClick={() => handleQuickLogin('delivery')}
+                      disabled={isLoading}
+                    >
+                      Entregador
+                    </Button>
+                  </div>
                 </form>
               </TabsContent>
               
